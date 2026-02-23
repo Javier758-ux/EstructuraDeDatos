@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include "stdlib.h"
 using namespace std;
 
 int mayor(int a, int b, int c);
@@ -63,6 +64,8 @@ int main() {
 			cout << "Opción no válida. Intenta de nuevo.\n";
 			break;
 		}
+		system("pause");
+		system("cls");
 
 	} while (opcion != 0);
 
