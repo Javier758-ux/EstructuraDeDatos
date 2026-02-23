@@ -10,6 +10,7 @@ double pesototal(int cantidadProductos);
 
 int main() {
 	int opcion, a, b, r;
+	system("color 5");
 
 	do {
 		cout << "Elige una opción:\n";
