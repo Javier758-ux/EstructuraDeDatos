@@ -1,0 +1,96 @@
+#include <iostream>
+using namespace std;
+int factorial(int n);
+void fc();
+void menu();
+void ej6();
+int producto(int r);
+void comp();
+double serie(double x, int y);
+int main()
+{
+    int opcion;
+    do
+    {
+        menu();
+        cin >> opcion;
+        switch (opcion)
+        {
+        case 1: {
+            fc();
+            break;
+        }
+        case 2: {
+            ej6();
+            break;
+        }
+        case 3: {
+            comp();
+            break;
+        }
+        case 4:
+            cout << "¡Hasta luego!\n";
+            break;
+        default:
+            cout << "Opción no válida. Intenta de nuevo.\n";
+            break;
+        }
+    } while (opcion!=4);
+    return 0;
+}
+void menu() {
+    cout << "MENU" << endl;
+    cout << "1.- Factorial " << endl;
+    cout << "2.- Ejercicio propio" << endl;
+    cout << "3.- Ejercicio adicional" << endl;
+    cout << "4.- Salir" << endl;
+    cout << "opciòn" << endl;
+}
+void fc()
+{
+    int num;
+    cout << "Ingrese el numero a calcular: " << endl;
+    cin >> num;
+    cout << "El factorial de " << num << " es: " << factorial(num);
+}
+int factorial(int n) {
+    if ((n == 0 || n == 1))
+        return 1;
+    else
+        return factorial(n - 1) * n;
+}
+void ej6() {
+    double x;
+    int y;
+    cout << "Ingrese el valor de X: ";
+    cin >> x;
+    cout << "Ingrese el valor de y: ";
+    cin >> y;
+    double resultado = serie(x, y);
+    cout << "La suma de la serie es: " << resultado;
+}
+double serie(double x, int y)
+{
+    if (y == 0)
+        return 0;
+    else
+        return x * (1 + serie(x, y - 1));
+}
+void comp()
+{
+    int r;
+    cout << "Cuantos nùmeros enetos desea multiplicar? " << endl;
+    cin >> r;
+    if (r < 0)
+        cout << "Por favor, ingrese un nùmero positivo" << endl;
+    else
+        cout << "El producto de los nùmero enteros es: " << producto(r)<<endl;
+}
+int producto(int r)
+{
+    if (r <= 1) {
+        return 1;
+    }
+    else
+        return r * producto(r - 1);
+}
