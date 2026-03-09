@@ -1,0 +1,22 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+//Presentaciòn de la clase
+class Saludo 
+{
+	private: //atributos
+		string mensaje = "Hola Mundo";
+	public:  //mètods
+		void mostrar() {
+			cout << mensaje;
+		}
+
+};
+int main()
+{
+	//Declarar un objeto de la clase Saludo se llama saludito
+	Saludo saludito;
+    saludito.mostrar(); //Utilizacion de un metodo de la clase
+	return 0;
+}
