@@ -1,0 +1,138 @@
+#include <iostream>
+#define MAXCOL 20
+#define MAXROW 20
+using namespace std;
+
+void cargar(int matrix[MAXROW][MAXCOL], int n, int m);
+void mostrar(int matrix[MAXROW][MAXCOL], int n, int m);
+void verificar(int matrix[MAXROW][MAXCOL], int n, int m);
+
+int main()
+{
+    int tamrow = 0, tamcol = 0, matrix[MAXROW][MAXCOL];
+    int op;
+
+    do {
+        cout << "1º cargar matrix" << endl;
+        cout << "2º mostrar matrix" << endl;
+        cout << "3º verificar matrix magica" << endl;
+        cout << "4º salir" << endl;
+        cout << "Elija una opcion: ";
+        cin >> op;
+
+        switch (op) {
+        case 1: {
+            cout << "Usted eligio cargar la matrix" << endl;
+            do {
+                cout << "Ingrese el numero de filas: ";
+                cin >> tamrow;
+            } while ((tamrow <= 0) || (tamrow > MAXROW));
+
+            do {
+                cout << "Ingrese el numero de columnas: ";
+                cin >> tamcol;
+            } while ((tamcol <= 0) || (tamcol > MAXCOL));
+
+            cargar(matrix, tamrow, tamcol);
+            break;
+        }
+
+        case 2: {
+            cout << "Usted eligio mostrar la matrix" << endl;
+            mostrar(matrix, tamrow, tamcol);
+            break;
+        }
+
+        case 3: {
+            cout << "Usted eligio verificar si la matrix es magica" << endl;
+            verificar(matrix, tamrow, tamcol);
+            break;
+        }
+
+        case 4:
+            cout << "¡Hasta luego!\n";
+            return 0;
+
+        default:
+            cout << "Opción no válida. Intenta de nuevo.\n";
+            break;
+        }
+
+        system("pause");
+        system("cls");
+
+    } while (op != 4);
+
+    return 0;
+}
+
+void cargar(int matrix[MAXROW][MAXCOL], int n, int m) {
+    for (int i = 0; i < n; i++) {
+        for (int k = 0; k < m; k++) {
+            cout << "Matrix[" << i + 1 << "][" << k + 1 << "] = ";
+            cin >> matrix[i][k];
+        }
+    }
+}
+
+void mostrar(int matrix[MAXROW][MAXCOL], int n, int m) {
+    for (int i = 0; i < n; i++) {
+        cout << "| ";
+        for (int k = 0; k < m; k++) {
+            cout << matrix[i][k] << " ";
+        }
+        cout << "|" << endl;
+    }
+}
+
+void verificar(int matrix[MAXROW][MAXCOL], int n, int m) {
+    if (n != m) {
+        cout << "La matrix no es magica porque no es cuadrada." << endl;
+        return;
+    }
+    int sumaReferencia = 0;
+    bool magica = true;
+    for (int j = 0; j < m; j++) {
+        sumaReferencia += matrix[0][j];
+    }
+    for (int i = 0; i < n; i++) {
+        int sumaFila = 0;
+        for (int j = 0; j < m; j++) {
+            sumaFila += matrix[i][j];
+        }
+        if (sumaFila != sumaReferencia) {
+            magica = false;
+        }
+    }
+    for (int j = 0; j < m; j++) {
+        int sumaCol = 0;
+        for (int i = 0; i < n; i++) {
+            sumaCol += matrix[i][j];
+        }
+        if (sumaCol != sumaReferencia) {
+            magica = false;
+        }
+    }
+    int sumaDiag1 = 0;
+    for (int i = 0; i < n; i++) {
+        sumaDiag1 += matrix[i][i];
+    }
+    if (sumaDiag1 != sumaReferencia) {
+        magica = false;
+    }
+
+    int sumaDiag2 = 0;
+    for (int i = 0; i < n; i++) {
+        sumaDiag2 += matrix[i][n - 1 - i];
+    }
+    if (sumaDiag2 != sumaReferencia) {
+        magica = false;
+    }
+
+    if (magica) {
+        cout << "La matrix SI es magica." << endl;
+    }
+    else {
+        cout << "La matrix NO es magica." << endl;
+    }
+}
