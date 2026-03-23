@@ -1,0 +1,118 @@
+// Vector.h
+#pragma once
+#define MAX 10
+#include <iostream>
+#include <string>
+
+using namespace std;
+class Vector
+{
+    private: //atributos
+		string dato[MAX];
+		int n;
+    public: // metodos
+		Vector();
+		void cargar(int tam);
+		void mostrar(); //Este estilo es para trabajar con los atributos const
+		void setDato(int pos,string valor); 
+		string getDato(int pos) const;
+		void setN(int tam); //setter
+		int getN() const;  //getter
+
+};
+
+
+
+//Vector.cpp
+#include "Vector.h"
+Vector::Vector() {
+	n = 0;
+}
+
+void Vector::cargar(int tam) {
+	n = tam;  //sta modificando el atributo de la clase que va afectar al objeto
+	for (int i = 0; i < n; i++) {
+		cout << "Elemento [" << i << "]: ";
+		cin >> dato[i];
+	}
+}
+void Vector::mostrar() {
+	for (int i = 0; i < n; i++) {
+		cout << "Elemento [" << i << "]: " << dato[i] << endl;
+		if (i < n - 1)
+			cout << " ";
+	}
+}
+void Vector::setDato(int pos, string valor) {
+	dato[pos] = valor;
+}
+string Vector::getDato(int pos) const {
+	return dato[pos];
+}
+void Vector::setN(int tam) {
+	n = tam;
+}
+int Vector::getN() const {
+	return n;
+
+}
+
+
+
+
+//Ejemplo de arrays de arrays.cpp
+#include <iostream>
+#include "Vector.h"
+#define MAX 10
+
+using namespace std;
+
+void cargarVectordeVectores(Vector v[], int n);
+void generarMatriz(Vector v[], Vector m[][MAX], int n);
+void mostrarVectorDeVectores(Vector v[], int n);
+void mostrarMatriz(Vector m[][MAX], int n);
+
+int main()
+{
+    int tamanio;
+    Vector vec[MAX];
+    Vector matriz[MAX][MAX];
+    do {
+        cout << "Ingrese el tamanio: "; cin >> tamanio;
+    } while ((tamanio<=0) || (tamanio > MAX));
+    cargarVectordeVectores(vec, tamanio);
+    generarMatriz(vec, matriz, tamanio);
+    mostrarVectorDeVectores(vec, tamanio);
+    mostrarMatriz(matriz,tamanio);
+}
+void cargarVectordeVectores(Vector v[], int n) {
+    for (int i = 0; i < n; i++) {
+        cout << "cargando vector [" << i << "]: ";
+        v[i].cargar(n);
+    }
+}
+void generarMatriz(Vector v[], Vector m[][MAX], int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            m[i][j].setN(n);
+            for (int k = 0; k < n; k++) {
+                m[i][j].setDato(k, v[i].getDato(j));
+            }
+        }
+    }
+}
+void mostrarVectorDeVectores(Vector v[], int n) {
+    cout << "Mostrar vectore de Vectores " << endl;
+    for (int i = 0; i < n; i++) {
+        cout << "cargando vector [" << i << "]: ";
+        v[i].mostrar();
+    }
+}
+void mostrarMatriz(Vector m[][MAX], int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            m[i][j].mostrar();
+            cout << " ";
+        }
+    }
+}
