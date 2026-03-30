@@ -1,0 +1,250 @@
+// Ejemplosstring.cpp : Defines the entr point for the console application.
+#include <iostream>
+#include <string>
+using namespace std;
+void menu();
+int contarVocales(string cadena);
+void mostrarLongitud(string cadena);
+void extraerParte(string cadena);
+void intercambiarStrings(string& cad1, string& cad2);
+bool compararStrings(string cad1, string cad2);
+void encontrarCaracter(string cadena);
+string invertirCadena(string cadena);
+void determinarPalindromo(string cadena);
+void quitarVocales(string cadena);
+
+int main()
+{
+    int op;
+    string nombre, var2;
+    do
+    {
+        menu();
+        cout << "Ingrese una opcion: ";
+        cin >> op;
+        cin.ignore();
+        switch (op)
+        {
+        case 1:
+        {
+            cout << "Usted eligio contar vocales"<<endl;
+            cout << "Ingrese una palabra: ";
+            getline(cin, nombre);
+            cout << "Numero de vocales: " << contarVocales(nombre) << endl;
+            break;
+        }
+        case 2:
+        {
+            cout << "Usted eligio longitud de un string" << endl;
+            cout << "Ingrese una palabra: ";
+            getline(cin, nombre);
+            mostrarLongitud(nombre);
+            break;
+        }
+        case 3:
+        {
+            cout << "Usted eligio extraer una parte" << endl;
+            cout << "Ingrese una palabra: ";
+            getline(cin, nombre);
+            extraerParte(nombre);
+            break;
+        }
+        case 4:
+        {
+            cout << "Usted eligio intercambio de string" << endl;
+            cout << "Ingrese la primera palabra: ";
+            getline(cin, nombre);
+            cout << "Ingrese la segunda palabra: ";
+            getline(cin, var2);
+            intercambiarStrings(nombre, var2);
+            cout << "Despues del intercambio:"<<endl;
+            cout << "Cadena 1: " << nombre << endl;
+            cout << "Cadena 2: " << var2 << endl;
+            break;
+        }
+        case 5:
+        {
+            cout << "\nUsted eligio comparar string" << endl;
+            cout << "Ingrese la primera palabra: ";
+            getline(cin, nombre);
+            cout << "Ingrese la segunda palabra: ";
+            getline(cin, var2);
+            compararStrings(nombre, var2);
+            break;
+        }
+        case 6:
+        {
+            cout << "Usted eligio encontrar un caracter"<<endl;
+            cout << "Ingrese una palabra: ";
+            getline(cin, nombre);
+            encontrarCaracter(nombre);
+            break;
+        }
+        case 7:
+        {
+            cout << "Usted eligio invertir" << endl;
+            cout << "Ingrese una cadena: ";
+            getline(cin, nombre);
+            cout << "Cadena invertida: " << invertirCadena(nombre) << endl;
+            break;
+        }
+        case 8:
+        {
+            cout << "Usted eligio determinar si es palindromo" << endl;
+            cout << "Ingrese una cadena: ";
+            getline(cin, nombre);
+            determinarPalindromo(nombre);
+            break;
+        }
+        case 9:
+        {
+            cout << "Usted eligio quitar vocales" << endl;
+            cout << "Ingrese una cadena: ";
+            getline(cin, nombre);
+            quitarVocales(nombre);
+            break;
+        }
+
+        case 0:
+        {
+            cout << "Saliendo del programa...";
+            break;
+        }
+
+        default:
+        {
+            cout << "Opcion no valida" << endl;
+            break;
+        }
+        }
+        cout << endl;
+    } while (op != 0);
+    return 0;
+}
+void menu()
+{
+    cout << "=========== MENU DE STRINGS ===========" << endl;
+    cout << "1. Contar vocales" << endl;
+    cout << "2. Longitud de un string" << endl;
+    cout << "3. Extraer una parte del string" << endl;
+    cout << "4. Intercambiar strings" << endl;
+    cout << "5. Comparar strings" << endl;
+    cout << "6. Encontrar un caracter" << endl;
+    cout << "7. Invertir cadena" << endl;
+    cout << "8. Determinar si es palindromo" << endl;
+    cout << "9. Quitar vocales" << endl;
+    cout << "0. Salir" << endl;
+    cout << "======================================"<<endl;
+}
+int contarVocales(string cadena)
+{
+    int cont = 0;
+
+    for (int i = 0; i < cadena.length(); i++)
+    {
+        if (cadena[i] == 'a' || cadena[i] == 'e' || cadena[i] == 'i' || cadena[i] == 'o' || cadena[i] == 'u' ||
+            cadena[i] == 'A' || cadena[i] == 'E' || cadena[i] == 'I' || cadena[i] == 'O' || cadena[i] == 'U')
+        {
+            cont++;
+        }
+    }
+
+    return cont;
+}
+void mostrarLongitud(string cadena)
+{
+    cout << "La longitud del string es: " << cadena.length() << endl;
+}
+void extraerParte(string cadena)
+{
+    int pos, cantidad;
+
+    cout << "Ingrese la posicion inicial: ";
+    cin >> pos;
+    cout << "Ingrese la cantidad de caracteres a extraer: ";
+    cin >> cantidad;
+    cin.ignore();
+    if (pos >= 0 && pos < cadena.length())
+    {
+        cout << "Subcadena extraida: " << cadena.substr(pos, cantidad) << endl;
+    }
+    else
+    {
+        cout << "Posicion fuera de rango" << endl;
+    }
+}
+void intercambiarStrings(string& cad1, string& cad2)
+{
+    cad1.swap(cad2);
+}
+bool compararStrings(string cad1, string cad2)
+{
+
+    if (cad1.compare(cad2) == 0)
+    {
+        cout << "Las cadenas son iguales" << endl;
+        return true;
+    }
+    else
+    {
+        cout << "Las cadenas son diferentes" << endl;
+        return false;
+    }
+}
+void encontrarCaracter(string cadena)
+{
+    char car;
+    bool encontrado = false;
+    cout << "Ingrese el caracter a buscar: ";
+    cin >> car;
+    cin.ignore();
+    for (int i = 0; i < cadena.length(); i++)
+    {
+        if (cadena[i] == car)
+        {
+            cout << "Caracter encontrado en la posicion: " << i << endl;
+            encontrado = true;
+        }
+    }
+    if (!encontrado)
+    {
+        cout << "El caracter no se encontro en la cadena" << endl;
+    }
+}
+string invertirCadena(string cadena)
+{
+    char aux;
+    int longitud = cadena.length();
+    for (int i = 0; i < longitud / 2; i++)
+    {
+        aux = cadena[i];
+        cadena[i] = cadena[longitud - 1 - i];
+        cadena[longitud - 1 - i] = aux;
+    }
+    return cadena;
+}
+void determinarPalindromo(string cadena)
+{
+    string invertida = invertirCadena(cadena);
+    if (cadena.compare(invertida) == 0)
+    {
+        cout << "La cadena es palindromo" << endl;
+    }
+    else
+    {
+        cout << "La cadena no es palindromo" << endl;
+    }
+}
+void quitarVocales(string cadena)
+{
+    string sinVocales = "";
+    for (int i = 0; i < cadena.length(); i++)
+    {
+        if (cadena[i]!='a'&&cadena[i]!='e'&&cadena[i]!='i'&&cadena[i]!='o'&&cadena[i]!='u'&&
+            cadena[i]!='A'&&cadena[i]!='E'&&cadena[i]!='I'&&cadena[i]!='O'&&cadena[i]!='U')
+        {
+            sinVocales += cadena[i];
+        }
+    }
+    cout << "Cadena sin vocales: " << sinVocales << endl;
+}
