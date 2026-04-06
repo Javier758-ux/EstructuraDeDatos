@@ -1,0 +1,223 @@
+// Pila.h
+#pragma once
+#define MAX 100
+typedef int TipoDato;
+class Pila
+{
+private:
+    TipoDato pila[MAX];
+    int cima;
+
+public:
+    Pila();
+    bool Apilar(TipoDato& elemento);
+    bool Desapilar();
+    bool CimaPila(TipoDato& elemento);
+    void LimpiarPila();
+    void VerPila();
+    bool PilaVacia();
+    bool Iguales(Pila p);
+};
+
+
+//Pila.cpp
+#include <iostream>
+#include "Pila.h"
+using namespace std;
+Pila::Pila()
+{
+    cima = -1;
+}
+bool Pila::Apilar(TipoDato& elemento)
+{
+    if (cima == MAX - 1)
+    {
+        cout << "Desbordamiento de Pila (Overflow)" << endl;
+        return false;
+    }
+    cima++;
+    pila[cima] = elemento;
+    return true;
+}
+
+bool Pila::Desapilar()
+{
+    if (cima == -1)
+    {
+        cerr << "Se esta intentando quitar un elemento de una pila vacia (Underflow)" << endl;
+        return false;
+    }
+
+    cima--;
+    return true;
+}
+
+bool Pila::CimaPila(TipoDato& elemento)
+{
+    if (PilaVacia())
+    {
+        cerr << "La pila esta vacia, no hay elemento en la cima." << endl;
+        return false;
+    }
+
+    elemento = pila[cima];
+    return true;
+}
+
+void Pila::VerPila()
+{
+    if (PilaVacia())
+    {
+        cout << "La pila esta vacia." << endl;
+        return;
+    }
+
+    cout << "Elementos de la pila:" << endl;
+    for (int i = cima; i >= 0; i--)
+    {
+        cout << pila[i] << endl;
+    }
+}
+
+bool Pila::PilaVacia()
+{
+    return cima == -1;
+}
+
+void Pila::LimpiarPila()
+{
+    cima = -1;
+}
+
+bool Pila::Iguales(Pila p)
+{
+    if (cima != p.cima)
+    {
+        return false;
+    }
+    for (int i = 0; i <= cima; i++)
+    {
+        if (pila[i] != p.pila[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+// main
+#include <iostream>
+#include "Pila.h"
+
+using namespace std;
+
+void menu()
+{
+    cout << "========== MENU PILA ==========" << endl;
+    cout << "1. Apilar elemento" << endl;
+    cout << "2. Desapilar elemento" << endl;
+    cout << "3. Ver elemento de la cima" << endl;
+    cout << "4. Ver pila completa" << endl;
+    cout << "5. Limpiar pila" << endl;
+    cout << "6. Verificar si la pila esta vacia" << endl;
+    cout << "7. Comparar con otra pila" << endl;
+    cout << "0. Salir" << endl;
+    cout << "Seleccione una opcion: ";
+}
+
+int main()
+{
+    Pila p1;
+    Pila p2;
+    TipoDato elemento;
+    int opcion;
+
+    do
+    {
+        menu();
+        cin >> opcion;
+
+        switch (opcion)
+        {
+        case 1:
+            cout << "Ingrese el elemento a apilar: ";
+            cin >> elemento;
+            if (p1.Apilar(elemento))
+            {
+                cout << "Elemento apilado correctamente." << endl;
+            }
+            break;
+
+        case 2:
+            if (p1.Desapilar())
+            {
+                cout << "Elemento desapilado correctamente." << endl;
+            }
+            break;
+
+        case 3:
+            if (p1.CimaPila(elemento))
+            {
+                cout << "El elemento en la cima es: " << elemento << endl;
+            }
+            break;
+
+        case 4:
+            p1.VerPila();
+            break;
+
+        case 5:
+            p1.LimpiarPila();
+            cout << "La pila ha sido limpiada." << endl;
+            break;
+
+        case 6:
+            if (p1.PilaVacia())
+            {
+                cout << "La pila esta vacia." << endl;
+            }
+            else
+            {
+                cout << "La pila NO esta vacia." << endl;
+            }
+            break;
+
+        case 7:
+        {
+            p2.LimpiarPila();
+
+            int n;
+            cout << "Cuantos elementos desea ingresar en la segunda pila? ";
+            cin >> n;
+
+            for (int i = 0; i < n; i++)
+            {
+                cout << "Ingrese elemento " << i + 1 << ": ";
+                cin >> elemento;
+                p2.Apilar(elemento);
+            }
+
+            if (p1.Iguales(p2))
+            {
+                cout << "Las pilas son iguales." << endl;
+            }
+            else
+            {
+                cout << "Las pilas son diferentes." << endl;
+            }
+            break;
+        }
+
+        case 0:
+            cout << "Saliendo del programa..." << endl;
+            break;
+
+        default:
+            cout << "Opcion invalida." << endl;
+        }
+
+    } while (opcion != 0);
+
+    return 0;
+}
