@@ -2,37 +2,26 @@ Queue.h
 #pragma once
 #include <iostream>
 using namespace std;
-#define MAX_SIZE 256 /* capacidad máxima */
+#define MAX_SIZE 256
 typedef char almacen[MAX_SIZE];
 
 class Queue {
 
-    int cabeza; /* puntero de lectura */
-    int cola; /* puntero de escritura */
-    int ITEMS; /* número de elementos en la lista */
-    int ITEMSIZE; /* tamaño de cada elemento */
-    almacen alma; /* el almacen */
+    int cabeza;
+    int cola;    
+    int ITEMS;
+    int ITEMSIZE;
+    almacen alma;
 
 public:
-    // constructor
     Queue();
-
-    // destructor
     ~Queue();
-
-    // regresa 1 (true) si la lista está vacia
     int empty();
-
-    // insertar elemento a la lista
     int put(int d);
-
-    // retirar elemento de la lista
     int get();
-
-    // regresa el n£mero de elementos en lista
     int size();
 
-}; // fin de la clase Queue
+};
 
 
 
@@ -40,16 +29,15 @@ Queue.cpp
 #include "Queue.h"
 #include <iostream>
 using namespace std;
-#define MAX_SIZE 256 /* capacidad máxima */
+#define MAX_SIZE 256
 typedef char almacen[MAX_SIZE];
 
-int cabeza; /* puntero de lectura */
-int cola; /* puntero de escritura */
-int ITEMS; /* número de elementos en la lista */
-int ITEMSIZE; /* tamaño de cada elemento */
-almacen alma; /* el almacen */
+int cabeza;
+int cola; 
+int ITEMS;
+int ITEMSIZE;
+almacen alma;
 
-// constructor
 Queue::Queue() {
     cabeza = 0;
     cola = 0;
@@ -57,13 +45,10 @@ Queue::Queue() {
     ITEMSIZE = 1;
 }
 
-// destructor
 Queue::~Queue() {}
 
-// regresa 1 (true) si la lista está vacia
 int Queue::empty() { return ITEMS == 0; }
 
-// insertar elemento a la lista
 int Queue::put(int d)
 {
     if (ITEMS == MAX_SIZE) return -1;
@@ -74,7 +59,6 @@ int Queue::put(int d)
     return d;
 }
 
-// retirar elemento de la lista
 int Queue::get()
 {
     char d;
@@ -85,8 +69,6 @@ int Queue::get()
     ITEMS--;
     return d;
 }
-
-// regresa el n£mero de elementos en lista
 int Queue::size() { return ITEMS; }
 
 
@@ -94,12 +76,9 @@ Cola.cpp
 #include <iostream>
 #include "Queue.h"
 using namespace std;
-#define MAX_SIZE 256 /* capacidad máxima */
+#define MAX_SIZE 256
 typedef char almacen[MAX_SIZE];
-
 void Menu();
-
-// probando la cola
 int main()
 {
     Queue q;
