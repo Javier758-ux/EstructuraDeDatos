@@ -1,7 +1,0 @@
-<Solution>
-  <Configurations>
-    <Platform Name="x64" />
-    <Platform Name="x86" />
-  </Configurations>
-  <Project Path="Colaestatica/Colaestatica.vcxproj" Id="b0c5f692-b7c3-4247-82a5-3cf6c71d1a81" />
-</Solution>
