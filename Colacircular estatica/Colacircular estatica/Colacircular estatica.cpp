@@ -1,0 +1,33 @@
+#include <iostream>
+#include <sstream>  // Para separar por espacios con stringstream
+#include "ColaCircular.h"
+using namespace std;
+
+int main() {
+    ColaCircular cola;
+    string linea;
+
+    cout << "Ingrese palabras separadas por espacios: ";
+    getline(cin, linea);
+
+    stringstream ss(linea);
+    string palabra;
+
+    // Separar y encolar
+    while (ss >> palabra) {
+        if (!cola.encolar(palabra)) {
+            cout << "Cola llena. No se pudo insertar: " << palabra << endl;
+        }
+    }
+
+    // Mostrar contenido
+    cola.mostrar();
+
+    // Atender (vaciar la cola)
+    cout << "\nAtendiendo cola...\n";
+    while (!cola.estaVacia()) {
+        cout << "Atendido: " << cola.desencolar() << endl;
+    }
+
+    return 0;
+}
