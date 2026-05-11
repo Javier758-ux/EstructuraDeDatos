@@ -1,0 +1,351 @@
+import tkinter as tk
+from tkinter import messagebox
+
+
+# ------------------ FUNCIONES ------------------
+
+def convertir_numero(campo):
+    texto = campo.get().strip().replace(",", ".")
+
+    if texto == "":
+        raise ValueError
+
+    return float(texto)
+
+
+def validar_datos():
+    monto = convertir_numero(entry_monto)
+    compra_usdt_bs = convertir_numero(entry_compra_usdt_bs)
+    venta_usdt_soles = convertir_numero(entry_venta_usdt_soles)
+    porcentaje_comision = convertir_numero(entry_comision)
+
+    if monto <= 0:
+        messagebox.showerror("Error", "El monto debe ser mayor a 0.")
+        return None
+
+    if compra_usdt_bs <= 0:
+        messagebox.showerror("Error", "El precio de compra del USDT debe ser mayor a 0.")
+        return None
+
+    if venta_usdt_soles <= 0:
+        messagebox.showerror("Error", "El precio de venta del USDT debe ser mayor a 0.")
+        return None
+
+    if porcentaje_comision < 0:
+        messagebox.showerror("Error", "La comisión no puede ser negativa.")
+        return None
+
+    return monto, compra_usdt_bs, venta_usdt_soles, porcentaje_comision
+
+
+def mostrar_resultado(texto):
+    resultado_text.config(state="normal")
+    resultado_text.delete("1.0", tk.END)
+    resultado_text.insert(tk.END, texto)
+    resultado_text.config(state="disabled")
+
+
+def bolivianos_a_soles():
+    try:
+        datos = validar_datos()
+
+        if datos is None:
+            return
+
+        bolivianos, compra_usdt_bs, venta_usdt_soles, porcentaje_comision = datos
+
+        usdt = bolivianos / compra_usdt_bs
+        soles = usdt * venta_usdt_soles
+
+        monto_comision = bolivianos * (porcentaje_comision / 100)
+        total_deposito = bolivianos + monto_comision
+
+        texto = (
+            f"🇧🇴 Conversión de Bolivianos a Soles 🇵🇪\n\n"
+            f"Con Bs {bolivianos:.2f} puedes recibir:\n"
+            f"💵 {usdt:.4f} USDT\n"
+            f"💰 S/ {soles:.2f}\n\n"
+            f"📊 Comisión: {porcentaje_comision:.2f}% = Bs {monto_comision:.2f}\n"
+            f"✅ Total a depositar: Bs {total_deposito:.2f}"
+        )
+
+        mostrar_resultado(texto)
+
+    except ValueError:
+        messagebox.showerror("Error", "Ingrese solo números válidos.")
+
+
+def soles_a_bolivianos():
+    try:
+        datos = validar_datos()
+
+        if datos is None:
+            return
+
+        soles, compra_usdt_bs, venta_usdt_soles, porcentaje_comision = datos
+
+        usdt = soles / venta_usdt_soles
+        bolivianos = usdt * compra_usdt_bs
+
+        monto_comision = bolivianos * (porcentaje_comision / 100)
+        total_deposito = bolivianos + monto_comision
+
+        texto = (
+            f"🇵🇪 Conversión de Soles a Bolivianos 🇧🇴\n\n"
+            f"Para recibir S/ {soles:.2f} necesitas:\n"
+            f"💵 {usdt:.4f} USDT\n"
+            f"💰 Depositar Bs {bolivianos:.2f}\n\n"
+            f"📊 Comisión: {porcentaje_comision:.2f}% = Bs {monto_comision:.2f}\n"
+            f"✅ Total a depositar: Bs {total_deposito:.2f}"
+        )
+
+        mostrar_resultado(texto)
+
+    except ValueError:
+        messagebox.showerror("Error", "Ingrese solo números válidos.")
+
+
+def limpiar():
+    entry_monto.delete(0, tk.END)
+    entry_compra_usdt_bs.delete(0, tk.END)
+    entry_venta_usdt_soles.delete(0, tk.END)
+    entry_comision.delete(0, tk.END)
+
+    mostrar_resultado("Resultado aparecerá aquí.")
+
+
+def cambiar_color_boton(boton, color):
+    boton.config(bg=color)
+
+
+def crear_boton(padre, texto, color, color_hover, comando):
+    boton = tk.Button(
+        padre,
+        text=texto,
+        font=FUENTE_BOTON,
+        bg=color,
+        fg="white",
+        activebackground=color_hover,
+        activeforeground="white",
+        relief="flat",
+        cursor="hand2",
+        command=comando
+    )
+
+    boton.bind("<Enter>", lambda e: cambiar_color_boton(boton, color_hover))
+    boton.bind("<Leave>", lambda e: cambiar_color_boton(boton, color))
+
+    return boton
+
+
+def crear_campo(padre, texto):
+    tk.Label(
+        padre,
+        text=texto,
+        font=FUENTE_LABEL,
+        bg=AZUL_CARD_2,
+        fg="#cbd5e1"
+    ).pack(anchor="w")
+
+    entrada = tk.Entry(
+        padre,
+        font=FUENTE_ENTRY,
+        justify="center",
+        bg="#eef6ff",
+        fg="#0f172a",
+        insertbackground="#0f172a",
+        relief="flat"
+    )
+
+    entrada.pack(fill="x", pady=(5, 13), ipady=7)
+
+    return entrada
+
+
+# ------------------ VENTANA PRINCIPAL ------------------
+
+ventana = tk.Tk()
+ventana.title("Calculadora Bs - USDT - Soles")
+ventana.geometry("760x930")
+ventana.resizable(False, False)
+ventana.configure(bg="#061424")
+
+
+# ------------------ COLORES ------------------
+
+AZUL_FONDO = "#061424"
+AZUL_CARD = "#0b1f35"
+AZUL_CARD_2 = "#102a46"
+AZUL_BORDE = "#1e3a5f"
+AZUL_CLARO = "#38bdf8"
+BLANCO = "#f8fafc"
+GRIS = "#94a3b8"
+
+VERDE = "#16a34a"
+VERDE_HOVER = "#15803d"
+
+DORADO = "#f59e0b"
+DORADO_HOVER = "#d97706"
+
+ROJO = "#dc2626"
+ROJO_HOVER = "#b91c1c"
+
+
+# ------------------ FUENTES ------------------
+
+FUENTE_TITULO = ("Segoe UI", 20, "bold")
+FUENTE_SUBTITULO = ("Segoe UI", 10)
+FUENTE_SECCION = ("Segoe UI", 12, "bold")
+FUENTE_LABEL = ("Segoe UI", 10)
+FUENTE_ENTRY = ("Segoe UI", 12)
+FUENTE_BOTON = ("Segoe UI", 10, "bold")
+FUENTE_RESULTADO = ("Segoe UI", 11, "bold")
+FUENTE_NOTA = ("Segoe UI", 9)
+
+
+# ------------------ CONTENEDOR GENERAL ------------------
+
+contenedor = tk.Frame(
+    ventana,
+    bg=AZUL_CARD,
+    highlightbackground=AZUL_BORDE,
+    highlightthickness=1
+)
+contenedor.pack(padx=28, pady=22, fill="both", expand=True)
+
+
+# ------------------ ENCABEZADO ------------------
+
+tk.Label(
+    contenedor,
+    text="💱 Calculadora Financiera",
+    font=FUENTE_TITULO,
+    bg=AZUL_CARD,
+    fg=BLANCO
+).pack(pady=(20, 4))
+
+tk.Label(
+    contenedor,
+    text="Conversión Bs ⇄ USDT ⇄ Soles con comisión porcentual",
+    font=FUENTE_SUBTITULO,
+    bg=AZUL_CARD,
+    fg=GRIS
+).pack(pady=(0, 14))
+
+tk.Frame(
+    contenedor,
+    bg=AZUL_CLARO,
+    height=2
+).pack(fill="x", padx=35, pady=(0, 16))
+
+
+# ------------------ TARJETA DE DATOS ------------------
+
+frame_datos = tk.Frame(
+    contenedor,
+    bg=AZUL_CARD_2,
+    padx=24,
+    pady=18,
+    highlightbackground=AZUL_BORDE,
+    highlightthickness=1
+)
+frame_datos.pack(padx=28, fill="x")
+
+tk.Label(
+    frame_datos,
+    text="📌 Datos de conversión",
+    font=FUENTE_SECCION,
+    bg=AZUL_CARD_2,
+    fg=BLANCO
+).pack(anchor="w", pady=(0, 12))
+
+entry_monto = crear_campo(frame_datos, "💰 Monto a convertir")
+entry_compra_usdt_bs = crear_campo(frame_datos, "🇧🇴 Precio de compra de 1 USDT en Bolivianos")
+entry_venta_usdt_soles = crear_campo(frame_datos, "🇵🇪 Precio de venta de 1 USDT en Soles")
+entry_comision = crear_campo(frame_datos, "📊 Comisión en porcentaje (%)")
+
+
+# ------------------ BOTONES ------------------
+
+frame_botones = tk.Frame(frame_datos, bg=AZUL_CARD_2)
+frame_botones.pack(fill="x", pady=(2, 8))
+
+boton_bs_soles = crear_boton(
+    frame_botones,
+    "🇧🇴 Bs ➜ Soles 🇵🇪",
+    VERDE,
+    VERDE_HOVER,
+    bolivianos_a_soles
+)
+boton_bs_soles.grid(row=0, column=0, padx=(0, 6), sticky="ew", ipady=8)
+
+boton_soles_bs = crear_boton(
+    frame_botones,
+    "🇵🇪 Soles ➜ Bs 🇧🇴",
+    DORADO,
+    DORADO_HOVER,
+    soles_a_bolivianos
+)
+boton_soles_bs.grid(row=0, column=1, padx=(6, 0), sticky="ew", ipady=8)
+
+frame_botones.columnconfigure(0, weight=1)
+frame_botones.columnconfigure(1, weight=1)
+
+boton_limpiar = crear_boton(
+    frame_datos,
+    "🧹 Limpiar campos",
+    ROJO,
+    ROJO_HOVER,
+    limpiar
+)
+boton_limpiar.pack(fill="x", pady=(4, 0), ipady=7)
+
+
+# ------------------ RESULTADO ------------------
+
+frame_resultado = tk.Frame(
+    contenedor,
+    bg="#071a2e",
+    padx=18,
+    pady=14,
+    highlightbackground=AZUL_BORDE,
+    highlightthickness=1
+)
+frame_resultado.pack(padx=28, pady=(18, 10), fill="x")
+
+tk.Label(
+    frame_resultado,
+    text="📋 Resultado de la operación",
+    font=FUENTE_SECCION,
+    bg="#071a2e",
+    fg=BLANCO
+).pack(pady=(0, 8))
+
+resultado_text = tk.Text(
+    frame_resultado,
+    height=8,
+    font=FUENTE_RESULTADO,
+    bg="#071a2e",
+    fg=AZUL_CLARO,
+    relief="flat",
+    wrap="word"
+)
+resultado_text.pack(fill="x")
+
+resultado_text.insert(tk.END, "Resultado aparecerá aquí.")
+resultado_text.config(state="disabled")
+
+
+# ------------------ NOTA FINAL ------------------
+
+tk.Label(
+    contenedor,
+    text="ℹ️ La comisión se calcula como porcentaje del monto base a depositar.",
+    font=FUENTE_NOTA,
+    fg=GRIS,
+    bg=AZUL_CARD,
+    wraplength=430
+).pack(pady=(4, 0))
+
+
+ventana.mainloop()
