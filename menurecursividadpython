@@ -1,0 +1,88 @@
+def potencia(base, exponente):
+    if exponente == 0:
+        return 1
+    else:
+        return base * potencia(base, exponente - 1)
+
+
+def valor_digito(caracter):
+    if '0' <= caracter <= '9':
+        return ord(caracter) - ord('0')
+    elif 'A' <= caracter <= 'Z':
+        return ord(caracter) - ord('A') + 10
+    elif 'a' <= caracter <= 'z':
+        return ord(caracter) - ord('a') + 10
+    else:
+        return -1
+
+
+def convertir_decimal(numero, base, posicion):
+    if posicion == len(numero):
+        return 0
+
+    digito = valor_digito(numero[posicion])
+    exponente = len(numero) - posicion - 1
+
+    return digito * potencia(base, exponente) + convertir_decimal(numero, base, posicion + 1)
+
+
+def factorial(num):
+    if num == 0 or num == 1:
+        return 1
+    else:
+        return num * factorial(num - 1)
+
+
+def serie_exponencial(x, n):
+    if n == 0:
+        return 1
+    else:
+        return serie_exponencial(x, n - 1) + potencia(x, n) / factorial(n)
+
+
+def suma_digitos(numero):
+    if numero == 0:
+        return 0
+    else:
+        return numero % 10 + suma_digitos(numero // 10)
+
+
+opcion = -1
+
+while opcion != 0:
+    print("===== MENU RECURSIVO =====")
+    print("1. Calcular potencia")
+    print("2. Convertir de base n a decimal")
+    print("3. Calcular serie exponencial")
+    print("4. Sumar digitos de un numero")
+    print("0. Salir")
+
+    opcion = int(input("Ingrese una opcion: "))
+
+    if opcion == 1:
+        base = int(input("Ingrese la base: "))
+        exponente = int(input("Ingrese el exponente: "))
+        print("Resultado:", potencia(base, exponente))
+
+    elif opcion == 2:
+        numero = input("Ingrese el numero: ")
+        base = int(input("Ingrese la base: "))
+        resultado = convertir_decimal(numero, base, 0)
+        print("El numero en decimal es:", resultado)
+
+    elif opcion == 3:
+        x = float(input("Ingrese el valor de x: "))
+        n = int(input("Ingrese la cantidad de terminos: "))
+        print("Resultado de la serie:", serie_exponencial(x, n))
+
+    elif opcion == 4:
+        numero = int(input("Ingrese un numero entero: "))
+        print("La suma de sus digitos es:", suma_digitos(numero))
+
+    elif opcion == 0:
+        print("Programa finalizado.")
+
+    else:
+        print("Opcion no valida.")
+
+    input("Presione ENTER para continuar...")
