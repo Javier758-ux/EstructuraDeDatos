@@ -1,0 +1,123 @@
+//Empleado.h
+#pragma once
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Empleado
+{
+private:
+    string nombre;
+    string apellido;
+    string cargo;
+    string correo;
+
+public:
+    Empleado(string n, string a, string c);
+
+    void generarCorreo();
+    void mostrarInformacion();
+    void cambiarCargo(string nuevoCargo);
+    void corregirApellido(string nuevoApellido);
+    void depurarNombre();
+};
+//Empleado.cpp
+#include "Empleado.h"
+#include <iostream>
+#include <string>
+using namespace std;
+
+Empleado::Empleado(string n, string a, string c)
+{
+    nombre = n;
+    apellido = a;
+    cargo = c;
+    generarCorreo();
+}
+
+void Empleado::generarCorreo()
+{
+    correo = nombre + "." + apellido + "@empresa.com";
+
+    for (int i = 0; i < correo.length(); i++)
+    {
+        if (correo[i] >= 'A' && correo[i] <= 'Z')
+        {
+            correo[i] += 32;
+        }
+    }
+}
+
+void Empleado::mostrarInformacion()
+{
+    cout << "Nombre completo: " << nombre << " " << apellido << endl;
+    cout << "Correo: " << correo << endl;
+    cout << "Cargo: " << cargo << endl;
+    cout << "Longitud del nombre: " << nombre.length() << endl;
+
+    if (!apellido.empty())
+    {
+        cout << "Inicial del apellido: " << apellido.substr(0, 1) << endl;
+    }
+
+    cout << "¿'@' está en el correo?: ";
+
+    if (correo.find('@') != string::npos)
+    {
+        cout << "Si" << endl;
+    }
+    else
+    {
+        cout << "No" << endl;
+    }
+
+    cout << endl;
+}
+
+void Empleado::cambiarCargo(string nuevoCargo)
+{
+    cout << "Cargo anterior: " << cargo << endl;
+    cargo = nuevoCargo;
+    cout << "Cargo actualizado: " << cargo << endl << endl;
+}
+
+void Empleado::corregirApellido(string nuevoApellido)
+{
+    cout << "Corrigiendo apellido..." << endl;
+    apellido = nuevoApellido;
+    generarCorreo();
+}
+
+void Empleado::depurarNombre()
+{
+    cout << "Nombre original: " << nombre << endl;
+
+    if (!nombre.empty())
+    {
+        nombre.insert(0, "Sr. ");
+    }
+
+    cout << "Nombre despues de depurar: " << nombre << endl << endl;
+}
+//Main
+#include <iostream>
+#include "Empleado.h"
+using namespace std;
+
+int main()
+{
+    Empleado emp1("Juan", "Perez", "Administrador");
+
+    emp1.mostrarInformacion();
+
+    emp1.cambiarCargo("Gerente");
+
+    emp1.corregirApellido("Gomez");
+    emp1.mostrarInformacion();
+
+    emp1.depurarNombre();
+
+    emp1.mostrarInformacion();
+
+    return 0;
+}
